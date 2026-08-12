@@ -1,5 +1,6 @@
 [build]
-# Use nixpacks instead of docker builder
+builder = "docker"
+dockerfilePath = "Dockerfile"
 
 [deploy]
 healthcheckPath = "/health"
