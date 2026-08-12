@@ -42,10 +42,17 @@ NVIDIA_BASE_URL = os.getenv(
 
 NEMOTRON_SYSTEM_PROMPT = """You are Nemotron 3 Ultra, a language model created by NVIDIA. You are helpful, harmless, and honest. Provide clear, accurate, and concise responses. When coding, write clean, efficient, and well-documented code. When explaining concepts, use simple language and practical examples."""
 
-client = OpenAI(
-    base_url=NVIDIA_BASE_URL,
-    api_key=NVIDIA_API_KEY
-)
+# Lazy init client to avoid startup issues if API key not set
+client = None
+
+def get_client():
+    global client
+    if client is None:
+        client = OpenAI(
+            base_url=NVIDIA_BASE_URL,
+            api_key=NVIDIA_API_KEY
+        )
+    return client
 
 class Message(BaseModel):
     role: str
@@ -93,7 +100,7 @@ async def chat(request: ChatRequest):
                 media_type="text/event-stream"
             )
 
-        response = client.chat.completions.create(
+        response = get_client().chat.completions.create(
             model=request.model or NVIDIA_MODEL,
             messages=messages,
             temperature=request.temperature,
@@ -125,7 +132,7 @@ async def chat(request: ChatRequest):
 
 async def stream_chat(messages: List[dict], request: ChatRequest) -> AsyncGenerator[str, None]:
     try:
-        stream = client.chat.completions.create(
+        stream = get_client().chat.completions.create(
             model=request.model or NVIDIA_MODEL,
             messages=messages,
             temperature=request.temperature,
