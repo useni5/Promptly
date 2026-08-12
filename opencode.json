@@ -1,0 +1,13 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  "lsp": true,
+
+  "provider": {
+    "nvidia": {
+      "options": {
+        "baseURL": "https://integrate.api.nvidia.com/v1"
+      }
+    }
+  }
+}

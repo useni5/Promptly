@@ -1,0 +1,17 @@
+{
+  "buildCommand": "node build.js",
+  "outputDirectory": "frontend",
+  "framework": "static",
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    }
+  ],
+  "functions": {
+    "backend/main.py": {
+      "runtime": "python3.13",
+      "maxDuration": 30
+    }
+  }
+}
