@@ -1,7 +1,6 @@
 {
   "buildCommand": "node build.js",
   "outputDirectory": "frontend",
-  "framework": "static",
   "rewrites": [
     {
       "source": "/api/(.*)",
